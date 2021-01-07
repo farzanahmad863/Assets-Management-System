@@ -10,7 +10,9 @@ namespace Assets_Management_System
         public int Price { get; set; }
         public string ModelName { get; set; }
 
+        public void AssetCatalog() { }
 
-        
+
+
     }
 }
