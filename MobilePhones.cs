@@ -4,10 +4,13 @@ using System.Text;
 
 namespace Assets_Management_System
 {
-    class MobilePhones
+    class MobilePhones: Asset
     {
-        public MobilePhones()
+        public MobilePhones(DateTime purchaseDate, int price, string modelName)
         {
+            PurchaseDate = purchaseDate;
+            Price = price;
+            ModelName = modelName;
 
         }
     }

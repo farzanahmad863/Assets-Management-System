@@ -4,11 +4,14 @@ using System.Text;
 
 namespace Assets_Management_System
 {
-    class LaptopComputers
+    class LaptopComputers: Asset
     {
-        public LaptopComputers()
+        public LaptopComputers(DateTime purchaseDate,int price, string modelName)
         {
-
+                PurchaseDate = purchaseDate;
+                Price = price;
+                ModelName = modelName;
+            
         }
     }
 }
