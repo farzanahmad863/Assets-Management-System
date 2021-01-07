@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Assets_Management_System
 {
-    class LaptopComputers: Asset
+    class LaptopComputer: Asset
     {
-        public LaptopComputers(DateTime purchaseDate,int price, string modelName)
+       public LaptopComputer(DateTime purchaseDate,int price, string modelName)
         {
                 PurchaseDate = purchaseDate;
                 Price = price;
