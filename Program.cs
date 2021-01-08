@@ -18,11 +18,17 @@ namespace Assets_Management_System
             CompanyAssets.Add(new LaptopComputer(DateTime.Today, 1400, "Macbook Pro"));
             CompanyAssets = CompanyAssets.OrderBy(assets => assets.GetType().ToString())
                 .ThenBy(assets => assets.PurchaseDate).ToList();
+            Console.WriteLine("Model Name".PadRight(25) + "Price".PadRight(25) + "Purchase Date"+ Environment.NewLine);
             foreach (var asset in CompanyAssets)
             {
-                if (asset.PurchaseDate.ToString() == asset.PurchaseDate.AddDays(30*12*3).ToString())
+                if (DateTime.Today.Subtract(asset.PurchaseDate).TotalDays>= 1005)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate.ToString("dddd, dd MMMM yyyy"));
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate.ToString("dddd, dd MMMM yyyy"));
                 }
                 
