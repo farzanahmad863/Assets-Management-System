@@ -6,7 +6,7 @@ namespace Assets_Management_System
 {
     class MobilePhone: Asset
     {
-        public MobilePhone(DateTime purchaseDate, int price, string modelName)
+        public MobilePhone(DateTime purchaseDate, int price, string modelName, Office office)
         {
             PurchaseDate = purchaseDate;
             Price = price;

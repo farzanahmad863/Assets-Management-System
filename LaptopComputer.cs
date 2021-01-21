@@ -6,7 +6,7 @@ namespace Assets_Management_System
 {
     class LaptopComputer: Asset
     {
-       public LaptopComputer(DateTime purchaseDate,int price, string modelName)
+       public LaptopComputer(DateTime purchaseDate,int price, string modelName,Office office)
         {
                 PurchaseDate = purchaseDate;
                 Price = price;
