@@ -9,7 +9,7 @@ namespace Assets_Management_System
         public DateTime PurchaseDate { get; set; }
         public int Price { get; set; }
         public string ModelName { get; set; }
-        
+        public string office { get; set; }
         public Asset()
         {
             

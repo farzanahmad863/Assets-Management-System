@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
 namespace Assets_Management_System
 {
     class Program
@@ -16,7 +17,6 @@ namespace Assets_Management_System
             CompanyAssets.Add(new LaptopComputer(new DateTime(2013,09,12), 1300, "Asus Vivobook"));
             CompanyAssets.Add(new LaptopComputer(new DateTime(2011,04,14), 1600, "Lenovo Ideapad"));
             CompanyAssets.Add(new LaptopComputer(new DateTime(2017,04,16), 1400, "Macbook Pro"));
-           // CompanyAssets.ForEach(asset => asset.PurchaseDate.ToString());
             CompanyAssets = CompanyAssets.OrderBy(assets => assets.GetType().ToString())
                 .ThenBy(assets => assets.PurchaseDate).ToList();
             
@@ -40,19 +40,14 @@ namespace Assets_Management_System
                 
             }
 
-            /*
-            var query = CompanyAssets.GroupBy(asset => asset.GetType())
-                  .Select(group =>group.OrderBy(asset => asset.Price));
+            
+            
+            
+            
 
-            foreach (var group in query)
-            {
-                
-                foreach (var asset in group)
-                {
-                  Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate.ToString("dddd, dd MMMM yyyy"));
-                }
-            }
-            */
+
+
+
 
 
 
