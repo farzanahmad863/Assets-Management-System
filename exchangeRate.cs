@@ -8,6 +8,9 @@ namespace Assets_Management_System
     {
         public string Currency { get; set; }
         public double Rate { get; set; }
+        public int ExchangeRateId { get; set; }
+
+
         public ExchangeRate(string currency, double rate)
         {
             Currency = currency;

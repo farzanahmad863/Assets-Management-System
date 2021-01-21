@@ -106,12 +106,12 @@ namespace Assets_Management_System
         {
             return new List<Asset>()
             {
-                new MobilePhone(new DateTime(2020, 03, 23), 1800, "Iphone 12", new Office("london"), "dollar", 1.45),
-                new MobilePhone(new DateTime(2010, 2, 08), 1000, "Samsung Galaxy s20", new Office("london"), "dollar", 1.45),
-                new MobilePhone(new DateTime(2019, 09, 04), 1700, "Nokia 5.8", new Office("london"), "dollar", 1.45),
-                new LaptopComputer(new DateTime(2013, 09, 12), 1300, "Asus Vivobook", new Office("london"), "dollar", 1.45),
-                new LaptopComputer(new DateTime(2011, 04, 14), 1600, "Lenovo Ideapad", new Office("london"), "dollar", 1.45),
-                new LaptopComputer(new DateTime(2017, 04, 16), 1400, "Macbook Pro", new Office("london"), "dollar", 1.45)
+                new MobilePhone(new DateTime(2020, 03, 23), 1800, "Iphone 12", new Office("london"), "EUR", 1.45),
+                new MobilePhone(new DateTime(2010, 2, 08), 1000, "Samsung s20", new Office("london"), "USD", 1.45),
+                new MobilePhone(new DateTime(2019, 09, 04), 1700, "Nokia 5.8", new Office("london"), "EUR", 1.45),
+                new LaptopComputer(new DateTime(2013, 09, 12), 1300, "Asus Vivobook", new Office("london"), "SEK", 1.45),
+                new LaptopComputer(new DateTime(2011, 04, 14), 1600, "Lenovo Ideapad", new Office("london"), "USD", 1.45),
+                new LaptopComputer(new DateTime(2017, 04, 16), 1400, "Macbook Pro", new Office("london"), "EUR", 1.45)
             };   
         }
     }
