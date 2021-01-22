@@ -9,14 +9,8 @@ namespace Assets_Management_System
         public DateTime PurchaseDate { get; set; }
         public int Price { get; set; }
         public string ModelName { get; set; }
-        
-        public Asset()
-        {
-            
-        }
-        public void AssetCatalog() { }
-
-
-
+        public Office Office { get; set; }
+        public string Currency { get; set; }
+        public double ExchangeRate { get; set; }
     }
 }

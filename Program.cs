@@ -1,63 +1,118 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
 namespace Assets_Management_System
 {
     class Program
     {
         static void Main(string[] args)
         {
-            List<Asset> CompanyAssets = new List<Asset>();
-            
-            
-            CompanyAssets.Add(new MobilePhone(new DateTime(2020,03,23), 1800,"Iphone 12"));
-            CompanyAssets.Add(new MobilePhone(new DateTime(2010,2,08), 1000, "Samsung Galaxy s20"));
-            CompanyAssets.Add(new MobilePhone(new DateTime(2019,09,04), 1700, "Nokia 5.8"));
-            CompanyAssets.Add(new LaptopComputer(new DateTime(2013,09,12), 1300, "Asus Vivobook"));
-            CompanyAssets.Add(new LaptopComputer(new DateTime(2011,04,14), 1600, "Lenovo Ideapad"));
-            CompanyAssets.Add(new LaptopComputer(new DateTime(2017,04,16), 1400, "Macbook Pro"));
-           // CompanyAssets.ForEach(asset => asset.PurchaseDate.ToString());
-            CompanyAssets = CompanyAssets.OrderBy(assets => assets.GetType().ToString())
-                .ThenBy(assets => assets.PurchaseDate).ToList();
-            
-            
-            Console.WriteLine("Model Name".PadRight(25) + "Price".PadRight(25) + "Purchase Date"+ Environment.NewLine);
-
-            foreach (var asset in CompanyAssets)
-            {
-                if (DateTime.Today.Subtract(asset.PurchaseDate).TotalDays>= 1005)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate);
-                }
-               else if(DateTime.Today.Subtract(asset.PurchaseDate).TotalDays < 1005)
-                    {
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate);
-                }
-                    
-                
-                
-            }
-
-            /*
-            var query = CompanyAssets.GroupBy(asset => asset.GetType())
-                  .Select(group =>group.OrderBy(asset => asset.Price));
-
-            foreach (var group in query)
-            {
-                
-                foreach (var asset in group)
-                {
-                  Console.WriteLine(asset.ModelName.PadRight(25) + asset.Price.ToString().PadRight(25) + asset.PurchaseDate.ToString("dddd, dd MMMM yyyy"));
-                }
-            }
-            */
-
-
-
+            List<Asset> assets = PrepareAssets();
+            List<ExchangeRate> exchangeRates = PrepareExchangeRates();
+            assets = SortAssets(assets);
+            PrintHeader();
+            PrintData(assets, exchangeRates);
+            Console.ReadLine();
         }
 
+        private static void PrintData(List<Asset> assets, List<ExchangeRate> exchangeRates)
+        {
+            assets.ForEach(asset => PreparePrintDataLine(asset, exchangeRates));
+        }
 
+        private static void PreparePrintDataLine(Asset asset, List<ExchangeRate> exchangeRates)
+        {
+            int daysWarning = 913; //Approx 30 months 
+            int daysAlarm = 1004;  //Approx 33 months 
+            TimeSpan diff = DateTime.Now - asset.PurchaseDate;
+            DecideForegroundColor(daysWarning, daysAlarm, diff);
+            double usdRateToday = exchangeRates.Where(exchangeRate => exchangeRate.Currency == asset.Currency).Select(ex => ex.Rate).FirstOrDefault();
+            PrintDataLine(asset, usdRateToday);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private static void PrintDataLine(Asset asset, double usdRateToday)
+        {
+            Console.WriteLine(
+                            Tab(asset.ModelName) +
+                            Tab(asset.Office.Name) +
+                            Tab(asset.PurchaseDate.ToShortDateString()) +
+                            Tab(asset.Price.ToString("0.##")) +
+                            Tab(asset.Currency) +
+                            Tab((asset.Price * usdRateToday).ToString("0.##"))
+                            );
+        }
+
+        private static void DecideForegroundColor(int daysWarning, int daysAlarm, TimeSpan diff)
+        {
+            if (diff.Days > daysAlarm)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else if (diff.Days > daysWarning)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+
+        private static void PrintHeader()
+        {
+            Console.WriteLine(
+                Tab("Brand") +
+                Tab("Office") +
+                Tab("Purchase Date") +
+                Tab("Price") +
+                Tab("Currency") +
+                Tab("In USD today")
+                );
+            Console.WriteLine(
+                Tab("-----") +
+                Tab("------") +
+                Tab("-------------") +
+                Tab("-----") +
+                Tab("---------") +
+                Tab("------------")
+                );
+        }
+
+        private static string Tab(string input)
+        {
+            return input.PadRight(14);
+        }
+
+        private static List<Asset> SortAssets(List<Asset> assets)
+        {
+            assets = assets.OrderBy(asset => asset.GetType().ToString()).ThenBy(asset => asset.PurchaseDate).ToList();
+
+            return assets;
+        }
+
+        private static List<ExchangeRate> PrepareExchangeRates()
+        {
+            return new List<ExchangeRate>
+            {
+                new ExchangeRate("USD",1.00),
+                new ExchangeRate("SEK",0.12),
+                new ExchangeRate("EUR",1.21)
+            };
+        }
+
+        private static List<Asset> PrepareAssets()
+        {
+            return new List<Asset>()
+            {
+                new MobilePhone(new DateTime(2020, 03, 23), 1800, "Iphone 12", new Office("london"), "EUR", 1.45),
+                new MobilePhone(new DateTime(2010, 2, 08), 1000, "Samsung s20", new Office("london"), "USD", 1.45),
+                new MobilePhone(new DateTime(2019, 09, 04), 1700, "Nokia 5.8", new Office("london"), "EUR", 1.45),
+                new LaptopComputer(new DateTime(2013, 09, 12), 1300, "Asus Vivobook", new Office("london"), "SEK", 1.45),
+                new LaptopComputer(new DateTime(2011, 04, 14), 1600, "Lenovo Ideapad", new Office("london"), "USD", 1.45),
+                new LaptopComputer(new DateTime(2017, 04, 16), 1400, "Macbook Pro", new Office("london"), "EUR", 1.45)
+            };   
+        }
     }
 }
