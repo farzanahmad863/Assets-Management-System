@@ -8,12 +8,16 @@ namespace Assets_Management_System
     {
         static void Main(string[] args)
         {
-            List<Asset> assets = PrepareAssets();
-            List<ExchangeRate> exchangeRates = PrepareExchangeRates();
-            assets = SortAssets(assets);
-            PrintHeader();
-            PrintData(assets, exchangeRates);
-            Console.ReadLine();
+            //List<Asset> assets = PrepareAssets();
+            //List<ExchangeRate> exchangeRates = PrepareExchangeRates();
+            //assets = SortAssets(assets);
+            //PrintHeader();
+            //PrintData(assets, exchangeRates);
+            //Console.ReadLine();
+            
+                var app = new App();
+                app.Run();
+            
         }
 
         private static void PrintData(List<Asset> assets, List<ExchangeRate> exchangeRates)
